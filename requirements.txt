@@ -3,3 +3,5 @@ environs~=8.0.0
 google-api-python-client
 oauth2client
 asyncpg
+gino
+sqlalchemy
