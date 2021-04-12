@@ -1,7 +1,7 @@
 from aiogram import types
 from aiogram.dispatcher.filters.builtin import CommandStart
 from keyboards.inline.inline_keyboards import get_start_keyboard
-from loader import dp
+from loader import dp, db
 from utils import format_text
 
 
@@ -12,3 +12,4 @@ async def bot_start(message: types.Message):
                              format_text('btn finding job', 'ru'),
                              format_text('btn finding employee', 'ru')
                          ))
+    await db.add_user(message.from_user.full_name, message.from_user.username, message.from_user.id)

@@ -10,3 +10,8 @@ IP = env.str("ip")  # Тоже str, но для айпи адреса хоста
 
 CREDENTIALS_FILE = env.str("CREDENTIALS_FILE")
 spreadsheet_id = env.str("spreadsheet_id")
+
+DB_USER = env.str("DB_USER")
+DB_PASS = env.str("DB_PASS")
+DB_NAME = env.str("DB_NAME")
+DB_HOST = env.str("DB_HOST")
