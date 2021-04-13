@@ -3,7 +3,7 @@ from utils import format_text
 
 
 def get_start_keyboard(lang: str = 'ru'):
-    keyboard = ReplyKeyboardMarkup(resize_keyboard=True, keyboard=[
+    keyboard = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True, keyboard=[
             [
                 KeyboardButton(text=format_text('btn finding job', lang)),
                 KeyboardButton(text=format_text('btn bookmarks', lang))
