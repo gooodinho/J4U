@@ -27,6 +27,6 @@ async def count_users():
     return total
 
 
-async def update_user_username(id, username):
+async def update_user_email(id, email):
     user = await User.get(id)
-    await user.update(username=username).apply()
+    await user.update(email=email).apply()
