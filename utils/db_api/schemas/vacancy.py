@@ -14,6 +14,7 @@ class Vacancy(TimedBaseModel):
     salary = Column(String(100), default=None)
     city = Column(String(100), default=None)
     site = Column(String(100), default=None)
+    img = Column(String(500), default=None)
     created_onsite_at = Column(String(100), default=None)
 
     query: sql.Select

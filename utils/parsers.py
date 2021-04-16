@@ -29,6 +29,11 @@ def rabota(keyword=None, city='украина'):
                     # список tr с вакансиями
                     tr_list = table.find_all('tr', attrs={'id': True})
                     for tr in tr_list:
+                        img = '-'
+                        img_div = tr.find('div', attrs={'class': 'card-banner'})
+                        img_tag = img_div.find('img')
+                        if img_tag:
+                            img = img_tag['src']
                         div = tr.find('div', attrs={'class': 'card-body'})
                         if div:
                             title = div.find('h2', attrs={'class': 'card-title'})
@@ -43,10 +48,9 @@ def rabota(keyword=None, city='украина'):
                                 salary = '-'
                             footer = tr.find('div', attrs={'class': 'card-footer'})
                             time = footer.find('div', attrs={'class': 'publication-time'})
-                            print(time.text)
                             jobs.append({'title': title.text, 'url': domain + href,
                                          'description': content.text, 'company': company, 'city': city,
-                                         'salary': salary.text, 'site': site, 'created_onsite_at': time.text})
+                                         'salary': salary.text, 'site': site, 'img': img, 'created_onsite_at': time.text})
                 else:
                     errors.append({'keyword': keyword, 'title': 'Table does not exist'})
             else:
