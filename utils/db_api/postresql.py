@@ -39,38 +39,38 @@ class Database:
                     result = await connection.execute(command, *args)
             return result
 
-    async def create_table_users(self):
-        sql = """
-        CREATE TABLE IF NOT EXISTS Users(
-        id SERIAL PRIMARY KEY,
-        full_name VARCHAR(255) NOT NULL,
-        username VARCHAR(255) NULL,
-        chat_id BIGINT NOT NULL UNIQUE
-        );
-        """
-
-        await self.execute(sql, execute=True)
-
-    @staticmethod
-    def format_args(sql, parameters: dict):
-        sql += " AND ".join([
-            f"{item} = ${num}" for num, item in enumerate(parameters.keys(), start=1)
-        ])
-        return sql, tuple(parameters.values())
-
-    async def add_user(self, full_name, username, chat_id):
-        sql = "INSERT INTO Users (full_name, username, chat_id) VALUES($1, $2, $3) returning *"
-        return await self.execute(sql, full_name, username, chat_id, fetchrow=True)
-
-    async def select_all_users(self):
-        sql = "SELECT * FROM Users"
-        return await self.execute(sql, fetch=True)
-
-    async def select_user(self, **kwargs):
-        sql = "SELECT * FROM Users WHERE "
-        sql, parameters = self.format_args(sql, parameters=kwargs)
-        return await self.execute(sql, *parameters, fetchrow=True)
-
-    async def count_users(self):
-        sql = "SELECT COUNT(*) FROM Users"
-        return await self.execute(sql, fetchval=True)
+    # async def create_table_users(self):
+    #     sql = """
+    #     CREATE TABLE IF NOT EXISTS Users(
+    #     id SERIAL PRIMARY KEY,
+    #     full_name VARCHAR(255) NOT NULL,
+    #     username VARCHAR(255) NULL,
+    #     chat_id BIGINT NOT NULL UNIQUE
+    #     );
+    #     """
+    #
+    #     await self.execute(sql, execute=True)
+    #
+    # @staticmethod
+    # def format_args(sql, parameters: dict):
+    #     sql += " AND ".join([
+    #         f"{item} = ${num}" for num, item in enumerate(parameters.keys(), start=1)
+    #     ])
+    #     return sql, tuple(parameters.values())
+    #
+    # async def add_user(self, full_name, username, chat_id):
+    #     sql = "INSERT INTO Users (full_name, username, chat_id) VALUES($1, $2, $3) returning *"
+    #     return await self.execute(sql, full_name, username, chat_id, fetchrow=True)
+    #
+    # async def select_all_users(self):
+    #     sql = "SELECT * FROM Users"
+    #     return await self.execute(sql, fetch=True)
+    #
+    # async def select_user(self, **kwargs):
+    #     sql = "SELECT * FROM Users WHERE "
+    #     sql, parameters = self.format_args(sql, parameters=kwargs)
+    #     return await self.execute(sql, *parameters, fetchrow=True)
+    #
+    # async def count_users(self):
+    #     sql = "SELECT COUNT(*) FROM Users"
+    #     return await self.execute(sql, fetchval=True)

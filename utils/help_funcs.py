@@ -1,3 +1,6 @@
+import math
+
+from data.config import ITEMS_ON_PAGE
 from data.google import local
 
 
@@ -13,3 +16,9 @@ def format_text(variable: str, lang: str = "ru", **kwargs) -> str:
             text = text.replace("{" + key + "}", str(value))
     finally:
         return text.strip()
+
+
+def get_max_page(arr):
+    max_page = math.ceil(arr / ITEMS_ON_PAGE)
+    return max_page
+
