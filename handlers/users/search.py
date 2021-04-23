@@ -1,5 +1,5 @@
 import asyncio
-
+from datetime import datetime
 from aiogram import types
 from aiogram.dispatcher import FSMContext
 from aiogram.types import CallbackQuery
@@ -11,8 +11,10 @@ from loader import dp
 from states import Search
 from utils import format_text, get_max_page
 from utils.db_api import sql_commands as commands
-from utils.db_api.sql.crud import add_keyword, add_vacancy, add_vacancy_keyword_association
-from utils.parsers import rabota
+from utils.db_api.sql.crud import *
+from utils.parsers import rabota, parse_jobs
+
+
 # from utils.vacancies_funcs import get_vacancies
 
 
@@ -37,22 +39,24 @@ def add_vacancy_to_keyword(vacancy, keyword):
 @dp.callback_query_handler(state=Search.confirm)
 async def searching_call(call: CallbackQuery, state: FSMContext):
     await call.answer(cache_time=3)
+
     if call.data == "start":
+        user = await get_user(call.message.chat.id)
+        print(call.message.chat.id)
         await call.message.answer('idet poisk')
         data = await state.get_data()
         keyword_name = data.get('keyword')
-        jobs, errors = rabota(keyword_name)
-        # await state.finish()
+        # NOT ADD OPTION TO CHOOSE SITE TO PARSE !
+        jobs, errors = parse_jobs(rabota, keyword_name)
         await asyncio.sleep(3)
         keyword = await add_keyword(keyword_name)
-        # await state.update_data(keyword_id=keyword.id)
+        print(user, keyword)
+        await add_search(user[0], keyword[0], datetime.now().time())
         for j in jobs:
             # await call.message.answer(str(j))
             vacancy = await add_vacancy(j)
-            await add_vacancy_keyword_association(vacancy.get('id'), keyword.get('id'))
-        # await call.message.answer(keyword.vacancies)
-        # vacancies = get_vacancies(1, keyword.id)
-        # print(vacancies)
+            await add_vacancy_keyword_association(vacancy[0], keyword[0])
+        await state.finish()
     elif call.data == "retype":
         await Search.keyword.set()
         await call.message.delete()

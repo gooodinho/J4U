@@ -3,12 +3,36 @@ from bs4 import BeautifulSoup as BS
 from random import randint
 
 headers = [
-    {'User-Agent': 'Mozilla/5.0 (Windows NT 5.1; rv:47.0) Gecko/20100101 Firefox/47.0',
-     'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'},
-    {'User-Agent': 'Mozilla/5.0 (Windows NT 5.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/49.0.2623.122 Safari/537.36',
-     'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'},
-    {'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; rv:53.0) Gecko/20100101 Firefox/53.0',
-     'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'}]
+    {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 5.1; rv:47.0) Gecko/20100101 Firefox/47.0',
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+        'Referer': 'https://www.google.com/'
+    },
+    {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 5.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/49.0.2623.122 Safari/537.36',
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+        'Referer': 'https://www.google.com/'
+    },
+    {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; rv:53.0) Gecko/20100101 Firefox/53.0',
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+        'Referer': 'https://www.google.com/'
+    },
+    {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.90 Safari/537.36',
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+        'Referer': 'https://www.google.com/'
+    },
+    {
+        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_6) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0.3 Safari/605.1.15',
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+        'Referer': 'https://www.google.com/'
+    }]
+
+
+def parse_jobs(parser, keyword=None, city='украина'):
+    jobs, errors = parser(keyword, city)
+    return jobs, errors
 
 
 def rabota(keyword=None, city='украина'):
@@ -17,7 +41,7 @@ def rabota(keyword=None, city='украина'):
     errors = []
     domain = 'https://rabota.ua/zapros'
     if keyword:
-        resp = requests.get(f"{domain}/{keyword}/{city}", headers=headers[randint(0, 2)])
+        resp = requests.get(f"{domain}/{keyword}/{city}", headers=headers[randint(0,    4)])
         if resp.status_code == 200:
             soup = BS(resp.content, 'html.parser')
             # Проверяем есть ли вакансии

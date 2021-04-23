@@ -46,12 +46,27 @@ async def add_vacancy_keyword_association(v_id: int, k_id):
         logging.error(msg=e)
 
 
+async def add_search(user_id, keyword_id, time):
+    try:
+        sql = "INSERT INTO Search (user_id, keyword_id, created) VALUES($1, $2, $3) returning *"
+        return await db.execute(sql, user_id, keyword_id, time, fetchrow=True)
+    except Exception as e:
+        logging.error(msg=e)
+
+
 async def get_keyword(key: str):
     sql = "SELECT * FROM Keywords WHERE key = $1"
-    return await db.execute(sql, key, fetchrow=True)
+    keyword = await db.execute(sql, key, fetchrow=True)
+    return keyword
 
+
+async def get_user(chat_id: int):
+    sql = "SELECT * FROM Users WHERE chat_id = $1"
+    user = await db.execute(sql, chat_id, fetchrow=True)
+    return user
 
 async def get_vacancy(**kwargs):
     sql = "SELECT * FROM Vacancies WHERE "
     sql, parameters = format_args(sql, parameters=kwargs)
-    return await db.execute(sql, *parameters, fetchrow=True)
+    vacancy = await db.execute(sql, *parameters, fetchrow=True)
+    return vacancy
