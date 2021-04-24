@@ -67,14 +67,15 @@ def rabota(keyword=None, city='украина'):
                             p = div.find('p', attrs={'class': 'company-name'})
                             if p:
                                 company = p.a.text
-                            salary = div.find('span', attrs={'class': 'salary'})
+                            salary_div = div.find('span', attrs={'class': 'salary'})
+                            salary = salary_div.text
                             if not salary:
                                 salary = '-'
                             footer = tr.find('div', attrs={'class': 'card-footer'})
                             time = footer.find('div', attrs={'class': 'publication-time'})
                             jobs.append({'title': title.text, 'url': domain + href,
                                          'description': content.text, 'company': company, 'city': city,
-                                         'salary': salary.text, 'site': site, 'img': img, 'created_onsite_at': time.text})
+                                         'salary': salary, 'site': site, 'img': img, 'created_onsite_at': time.text})
                 else:
                     errors.append({'keyword': keyword, 'title': 'Table does not exist'})
             else:
