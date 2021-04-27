@@ -48,10 +48,18 @@ tables = (
     """
 )
 
+tables_name = ('Users', 'Vacancies', 'Keywords', 'Vacancy_Keyword', 'Search')
+
 
 async def create_database_tables():
     for table in tables:
         await db.execute(table, execute=True)
+
+
+async def drop_database_tables():
+    for name in tables_name:
+        sql = f"DROP TABLE {name} CASCADE"
+        await db.execute(sql, execute=True)
 
 
 def format_args(sql, parameters: dict):
@@ -59,3 +67,9 @@ def format_args(sql, parameters: dict):
         f"{item} = ${num}" for num, item in enumerate(parameters.keys(), start=1)
     ])
     return sql, tuple(parameters.values())
+
+
+async def select_range_vacancies(keyword_id, page):
+    sql = f"SELECT * FROM Vacancy_Keyword WHERE keyword_id = $1 ORDER BY vacancy_id OFFSET $2 ROWS FETCH NEXT 1 ROWS ONLY"
+    vacancy_keyword = await db.execute(sql, keyword_id, page-1, fetchrow=True)
+    return vacancy_keyword[0]

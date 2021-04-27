@@ -17,5 +17,3 @@ DB_NAME = env.str("DB_NAME")
 DB_HOST = env.str("DB_HOST")
 
 POSTGRES_URI = f"postgresql://{DB_USER}:{DB_PASS}@{IP}/{DB_NAME}"
-
-ITEMS_ON_PAGE = 4

@@ -65,6 +65,7 @@ async def get_user(chat_id: int):
     user = await db.execute(sql, chat_id, fetchrow=True)
     return user
 
+
 async def get_vacancy(**kwargs):
     sql = "SELECT * FROM Vacancies WHERE "
     sql, parameters = format_args(sql, parameters=kwargs)

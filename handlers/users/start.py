@@ -11,4 +11,3 @@ async def bot_start(message: types.Message):
     await message.answer(format_text('msg start', 'ru', full_name=message.from_user.full_name),
                          reply_markup=get_start_keyboard())
     await add_user(message.from_user.full_name, message.from_user.id, message.from_user.username)
-
