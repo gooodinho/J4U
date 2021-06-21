@@ -10,7 +10,4 @@ async def show_vacancy(data: dict):
                        description=data['description'],
                        created=data['created_onsite_at'],
                        url=f'<a href="{data["url"]}">{format_text("msg link")}</a>')
-    # if data['img'] != '-':
-    #     await call.message.answer_photo(photo=data['img'], caption=text)
-    # else:
     return text

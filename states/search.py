@@ -5,3 +5,4 @@ class Search(StatesGroup):
     keyword = State()
     confirm = State()
     result = State()
+
